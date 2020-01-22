@@ -1,0 +1,12 @@
+#!/usr/bin/env python
+
+import cartographer
+import cartographer.fetch as fetch
+import requests
+
+if __name__ == '__main__':
+    try:
+        cartographer.main()
+    except requests.HTTPError as error:
+        print(error)
+        print(fetch.format_json(error.response.json()))
