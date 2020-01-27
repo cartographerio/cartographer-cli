@@ -2,7 +2,7 @@
 
 Command line interface to [Cartographer](https://cartographer.io).
 
-Copyright (C) 2019 Cartographer Studios Ltd.
+Copyright (C) 2019-Present Cartographer Studios Ltd.
 
 Work in progress, subject to change.
 
