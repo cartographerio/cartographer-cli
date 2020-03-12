@@ -10,12 +10,20 @@ cert = None  # 'charles-ssl-proxying-certificate.pem'
 def create_url(scheme, host, path, query={}):
     filtered_query = {}
     for (key, val) in query.items():
-        if val:
+        if isinstance(val, str):
             filtered_query[key] = val
-    query_args = ["{}={}".format(key, val)
-                  for (key, val) in filtered_query.items()]
+        elif isinstance(val, bool):
+            if val == True:
+                filtered_query[key] = "true"
+            else:
+                filtered_query[key] = "false"
+        elif val:
+            filtered_query[key] = str(val)
+    query_args = ["{}={}".format(key, val) for (key, val) in filtered_query.items()]
     query_string = "&".join(query_args)
-    return "{}://{}{}?{}".format(scheme, host, path, query_string)
+    url = "{}://{}{}?{}".format(scheme, host, path, query_string)
+    # print(url)
+    return url
 
 
 # Headers ---------------------------------------
@@ -24,7 +32,7 @@ def create_url(scheme, host, path, query={}):
 def create_headers(token=None):
     headers = {}
     if token is not None:
-        headers['Authorization'] = "Bearer {}".format(token)
+        headers["Authorization"] = "Bearer {}".format(token)
     return headers
 
 
@@ -45,9 +53,9 @@ def handle_http_errors(response):
 
         if isinstance(response.reason, bytes):
             try:
-                reason = response.reason.decode('utf-8')
+                reason = response.reason.decode("utf-8")
             except UnicodeDecodeError:
-                reason = response.reason.decode('iso-8859-1')
+                reason = response.reason.decode("iso-8859-1")
         else:
             reason = response.reason
 
@@ -63,15 +71,17 @@ def get(url, auth, headers):
 
 
 def post(url, auth, headers, payload):
-    response = requests.post(url, headers=headers,
-                             auth=auth, verify=cert, data=json.dumps(payload))
+    response = requests.post(
+        url, headers=headers, auth=auth, verify=cert, data=json.dumps(payload)
+    )
     handle_http_errors(response)
     return response
 
 
 def put(url, auth, headers, payload):
-    response = requests.put(url, headers=headers, auth=auth,
-                            verify=cert, data=json.dumps(payload))
+    response = requests.put(
+        url, headers=headers, auth=auth, verify=cert, data=json.dumps(payload)
+    )
     handle_http_errors(response)
     return response
 

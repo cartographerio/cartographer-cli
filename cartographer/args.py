@@ -227,6 +227,11 @@ feature_search.add_argument(
     "-w", "--workspace", help="Workspace ID or subdomain", default=None
 )
 
+feature_search.add_argument(
+    "-s", "--simplify", help="Simplify geometry", action="store_true"
+)
+
+
 # Feature reset ---------------------------------
 
 feature_reset = feature_parsers.add_parser(
