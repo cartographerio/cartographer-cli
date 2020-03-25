@@ -317,21 +317,21 @@ def feature_reset(params):
     return response.json()
 
 
-@register_command("upload", "search")
-def upload_search(params):
+@register_command("attachment", "search")
+def attachment_search(params):
     scheme = params["scheme"]
     host = params["host"]
     email = params["email"]
     password = params["password"]
     module = params["module"]
     survey = params["survey"]
-    subfolder = params["subfolder"]
+    folder = params["folder"]
 
     url = fetch.create_url(
         scheme,
         host,
-        "/v1/upload",
-        {"module": module, "survey": survey, "subfolder": subfolder},
+        "/v1/attachment",
+        {"module": module, "survey": survey, "folder": folder},
     )
 
     auth = fetch.basic_auth(email, password)

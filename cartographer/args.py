@@ -241,27 +241,26 @@ feature_reset = feature_parsers.add_parser(
 feature_reset.add_argument("-l", "--layer", help="The layer to reset", default=None)
 
 
-# Uploads =======================================
+# Attachments ===================================
 
-upload_parsers = parsers.add_parser(
-    "upload", help="Commands related to uploaded files"
+attachment_parsers = parsers.add_parser(
+    "attachment", help="Commands related to attachmented files"
 ).add_subparsers(dest="subcommand")
 
-# Upload search ---------------------------------
+# attachment search ---------------------------------
 
-upload_search = upload_parsers.add_parser(
-    "search", help="Search uploads in a particular survey"
+attachment_search = attachment_parsers.add_parser(
+    "search", help="Search attachments in a particular survey"
 )
 
-upload_search.add_argument("module", help="The survey module")
+attachment_search.add_argument("module", help="The survey module")
 
-upload_search.add_argument("survey", help="The survey")
+attachment_search.add_argument("survey", help="The survey")
 
-upload_search.add_argument("-s", "--subfolder", help="Optional subfolder to search")
+attachment_search.add_argument("-f", "--folder", help="Optional folder to search")
 
 
 # Version =======================================
 
 
 version = parsers.add_parser("version", help="Get server version")
-
