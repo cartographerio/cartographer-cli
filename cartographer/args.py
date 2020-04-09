@@ -129,6 +129,20 @@ survey_summaries.add_argument(
     "--format", default=None, help='Set to "legacy" to receive old-style survey JSON'
 )
 
+# Survey blank ----------------------------------
+
+survey_blank = survey_parsers.add_parser("blank", help="Get a blank survey")
+
+survey_blank.add_argument("module", help="The survey module")
+
+survey_blank.add_argument(
+    "-w", "--workspace", help="Workspace ID or subdomain", default=None
+)
+
+survey_blank.add_argument(
+    "--format", default=None, help='Set to "legacy" to receive old-style survey JSON'
+)
+
 # Survey read -----------------------------------
 
 survey_read = survey_parsers.add_parser("read", help="Read data on a specific survey")

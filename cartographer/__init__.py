@@ -163,6 +163,30 @@ def survey_search(params):
     return response.json()
 
 
+@register_command("survey", "blank")
+def survey_blank(params):
+    scheme = params["scheme"]
+    host = params["host"]
+    email = params["email"]
+    password = params["password"]
+    module = params["module"]
+    workspace = params["workspace"]
+    format = params["format"]
+
+    url = fetch.create_url(
+        scheme,
+        host,
+        "/v1/survey/{}/blank".format(module),
+        {"format": format, "workspace": workspace},
+    )
+
+    auth = fetch.basic_auth(email, password)
+    headers = fetch.create_headers()
+    response = fetch.get(url, auth, headers)
+
+    return response.json()
+
+
 @register_command("survey", "read")
 def survey_read(params):
     scheme = params["scheme"]
