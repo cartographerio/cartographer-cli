@@ -27,6 +27,24 @@ def register_command(command, subcommand=None):
 
 # Commands --------------------------------------
 
+@register_command("auth", "login")
+def auth_login(params):
+    scheme = params["scheme"]
+    host = params["host"]
+    email = params["email"]
+    password = params["password"]
+
+    body = {
+        "email": email,
+        "password": password,
+    }
+
+    url = fetch.create_url(scheme, host, "/v1/auth/login", {})
+    headers = fetch.create_headers()
+    response = fetch.post(url, None, headers, body)
+
+    return response.json()
+
 
 @register_command("workspace", "search")
 def workspace_search(params):

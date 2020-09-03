@@ -25,6 +25,17 @@ parser.add_argument("-P", "--password", help="The password to use to authenticat
 parsers = parser.add_subparsers(dest="command")
 
 
+# Auth ==========================================
+
+auth_parsers = parsers.add_parser(
+    "auth", help="Commands related to authentication"
+).add_subparsers(dest="subcommand")
+
+# Auth login ------------------------------------
+
+auth_login = auth_parsers.add_parser("login", help="Log in and retrieve a session token")
+
+
 # Workspaces ====================================
 
 workspace_parsers = parsers.add_parser(
