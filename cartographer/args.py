@@ -226,13 +226,9 @@ layer_search.add_argument(
 
 # Map layer read ---------------------------------
 
-layer_read = layer_parsers.add_parser("reset", help="Reset maps layer(s)")
+layer_read = layer_parsers.add_parser("read", help="Read map layer")
 
 layer_read.add_argument("layer", help="The layer ID")
-
-layer_read.add_argument(
-    "-w", "--workspace", help="Workspace ID or subdomain", default=None
-)
 
 # Features ======================================
 

@@ -297,13 +297,12 @@ def layer_search(params):
 def layer_read(params):
     scheme = params["scheme"]
     host = params["host"]
-    workspace = params["workspace"]
     email = params["email"]
     password = params["password"]
     layer = params["layer"]
 
     url = fetch.create_url(
-        scheme, host, "/v1/map/layer/{}".format(layer), {"workspace": workspace}
+        scheme, host, "/v1/map/layer/{}".format(layer)
     )
 
     auth = fetch.basic_auth(email, password)
