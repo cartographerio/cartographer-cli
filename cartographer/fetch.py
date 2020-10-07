@@ -40,7 +40,7 @@ def create_headers(token=None):
 
 
 def format_json(data):
-    return json.dumps(data, sort_keys=False, indent=2)
+    return json.dumps(data, sort_keys=False)
 
 
 # Requests -------------------------------------

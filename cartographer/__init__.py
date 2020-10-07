@@ -3,6 +3,7 @@ import json
 import functools
 import semver
 import sys
+import os
 import base64
 
 from cartographer.args import read_args
@@ -45,7 +46,7 @@ def auth_login(params):
     headers = fetch.create_headers()
     response = fetch.post(url, None, headers, body)
 
-    return response.json()
+    return fetch.format_json(response.json())
 
 
 @register_command("workspace", "search")
@@ -60,7 +61,7 @@ def workspace_search(params):
     headers = fetch.create_headers()
     response = fetch.get(url, auth, headers)
 
-    return response.json()
+    return fetch.format_json(response.json())
 
 
 @register_command("workspace", "read")
@@ -76,7 +77,7 @@ def workspace_read(params):
     headers = fetch.create_headers()
     response = fetch.get(url, auth, headers)
 
-    return response.json()
+    return fetch.format_json(response.json())
 
 
 @register_command("module", "search")
@@ -93,7 +94,7 @@ def module_search(params):
     headers = fetch.create_headers()
     response = fetch.get(url, auth, headers)
 
-    return response.json()
+    return fetch.format_json(response.json())
 
 
 @register_command("module", "read")
@@ -110,7 +111,7 @@ def module_read(params):
     headers = fetch.create_headers()
     response = fetch.get(url, auth, headers)
 
-    return response.json()
+    return fetch.format_json(response.json())
 
 
 @register_command("survey", "search")
@@ -145,7 +146,7 @@ def survey_search(params):
     headers = fetch.create_headers()
     response = fetch.get(url, auth, headers)
 
-    return response.json()
+    return fetch.format_json(response.json())
 
 
 @register_command("survey", "summaries")
@@ -180,7 +181,7 @@ def survey_search(params):
     headers = fetch.create_headers()
     response = fetch.get(url, auth, headers)
 
-    return response.json()
+    return fetch.format_json(response.json())
 
 
 @register_command("survey", "blank")
@@ -204,7 +205,7 @@ def survey_blank(params):
     headers = fetch.create_headers()
     response = fetch.get(url, auth, headers)
 
-    return response.json()
+    return fetch.format_json(response.json())
 
 
 @register_command("survey", "read")
@@ -225,7 +226,7 @@ def survey_read(params):
     headers = fetch.create_headers()
     response = fetch.get(url, auth, headers)
 
-    return response.json()
+    return fetch.format_json(response.json())
 
 
 @register_command("user", "search")
@@ -258,7 +259,7 @@ def user_search(params):
     headers = fetch.create_headers()
     response = fetch.get(url, auth, headers)
 
-    return response.json()
+    return fetch.format_json(response.json())
 
 
 @register_command("user", "read")
@@ -275,7 +276,7 @@ def user_search(params):
     headers = fetch.create_headers(workspace)
     response = fetch.get(url, auth, headers)
 
-    return response.json()
+    return fetch.format_json(response.json())
 
 
 @register_command("layer", "search")
@@ -292,7 +293,7 @@ def layer_search(params):
     headers = fetch.create_headers()
     response = fetch.get(url, auth, headers)
 
-    return response.json()
+    return fetch.format_json(response.json())
 
 
 @register_command("layer", "read")
@@ -309,7 +310,7 @@ def layer_read(params):
     headers = fetch.create_headers()
     response = fetch.get(url, auth, headers)
 
-    return response.json()
+    return fetch.format_json(response.json())
 
 
 @register_command("feature", "search")
@@ -329,17 +330,15 @@ def feature_search(params):
         {"workspace": workspace, "simplify": simplify},
     )
 
-    print(url)
-
     auth = fetch.basic_auth(email, password)
     headers = fetch.create_headers()
     response = fetch.get(url, auth, headers)
 
-    return response.json()
+    return fetch.format_json(response.json())
 
 
 @register_command("feature", "tile")
-def feature_search(params):
+def feature_tile(params):
     scheme = params["scheme"]
     host = params["host"]
     workspace = params["workspace"]
@@ -357,8 +356,6 @@ def feature_search(params):
         "/v1/map/{}/tile/{}/{}/{}".format(layer, z, x, y),
         {"workspace": workspace, "simplify": simplify},
     )
-
-    print(url)
 
     auth = fetch.basic_auth(email, password)
     headers = fetch.create_headers()
@@ -386,7 +383,7 @@ def feature_reset(params):
     headers = fetch.create_headers()
     response = fetch.get(url, auth, headers)
 
-    return response.json()
+    return fetch.format_json(response.json())
 
 
 @register_command("attachment", "search")
@@ -410,7 +407,7 @@ def attachment_search(params):
     headers = fetch.create_headers()
     response = fetch.get(url, auth, headers)
 
-    return response.json()
+    return fetch.format_json(response.json())
 
 
 @register_command("version")
@@ -422,7 +419,7 @@ def version(params):
     headers = {}
     response = fetch.get(url, None, headers)
 
-    return response.json()
+    return fetch.format_json(response.json())
 
 
 # Main ------------------------------------------
@@ -453,7 +450,7 @@ def main():
         else:
             sys.stderr.write("Command not found: {} {}".format(cmd_name, sub_name))
 
-        print(fetch.format_json(ans))
+        os.write(sys.stdout.fileno(), ans)
     else:
         sys.stderr.write("Command not found: {} {}".format(cmd_name, sub_name))
 
