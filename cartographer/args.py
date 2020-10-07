@@ -33,7 +33,9 @@ auth_parsers = parsers.add_parser(
 
 # Auth login ------------------------------------
 
-auth_login = auth_parsers.add_parser("login", help="Log in and retrieve a session token")
+auth_login = auth_parsers.add_parser(
+    "login", help="Log in and retrieve a session token"
+)
 
 
 # Workspaces ====================================
@@ -249,6 +251,26 @@ feature_search.add_argument(
 )
 
 feature_search.add_argument(
+    "-s", "--simplify", help="Simplify geometry", action="store_true"
+)
+
+
+# Feature tile ----------------------------------
+
+feature_tile = feature_parsers.add_parser(
+    "tile", help="tile users in a particular workspace/module"
+)
+
+feature_tile.add_argument("layer", help="The layer to tile")
+feature_tile.add_argument("z", help="The zoom")
+feature_tile.add_argument("x", help="The x position of the tile")
+feature_tile.add_argument("y", help="The y position of the tile")
+
+feature_tile.add_argument(
+    "-w", "--workspace", help="Workspace ID or subdomain", default=None
+)
+
+feature_tile.add_argument(
     "-s", "--simplify", help="Simplify geometry", action="store_true"
 )
 

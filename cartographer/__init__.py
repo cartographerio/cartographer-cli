@@ -3,6 +3,7 @@ import json
 import functools
 import semver
 import sys
+import base64
 
 from cartographer.args import read_args
 from cartographer.profile import read_profile
@@ -26,6 +27,7 @@ def register_command(command, subcommand=None):
 
 
 # Commands --------------------------------------
+
 
 @register_command("auth", "login")
 def auth_login(params):
@@ -301,9 +303,7 @@ def layer_read(params):
     password = params["password"]
     layer = params["layer"]
 
-    url = fetch.create_url(
-        scheme, host, "/v1/map/layer/{}".format(layer)
-    )
+    url = fetch.create_url(scheme, host, "/v1/map/layer/{}".format(layer))
 
     auth = fetch.basic_auth(email, password)
     headers = fetch.create_headers()
@@ -329,11 +329,42 @@ def feature_search(params):
         {"workspace": workspace, "simplify": simplify},
     )
 
+    print(url)
+
     auth = fetch.basic_auth(email, password)
     headers = fetch.create_headers()
     response = fetch.get(url, auth, headers)
 
     return response.json()
+
+
+@register_command("feature", "tile")
+def feature_search(params):
+    scheme = params["scheme"]
+    host = params["host"]
+    workspace = params["workspace"]
+    email = params["email"]
+    password = params["password"]
+    layer = params["layer"]
+    z = params["z"]
+    x = params["x"]
+    y = params["y"]
+    simplify = params["simplify"]
+
+    url = fetch.create_url(
+        scheme,
+        host,
+        "/v1/map/{}/tile/{}/{}/{}".format(layer, z, x, y),
+        {"workspace": workspace, "simplify": simplify},
+    )
+
+    print(url)
+
+    auth = fetch.basic_auth(email, password)
+    headers = fetch.create_headers()
+    response = fetch.get(url, auth, headers)
+
+    return response.content
 
 
 @register_command("feature", "reset")
