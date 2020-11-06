@@ -322,19 +322,23 @@ def feature_search(params):
     password = params["password"]
     layer = params["layer"]
     simplify = params["simplify"]
+    format = params["format"]
 
     url = fetch.create_url(
         scheme,
         host,
         "/v1/map/{}".format(layer),
-        {"workspace": workspace, "simplify": simplify},
+        {"workspace": workspace, "simplify": simplify, "format": format},
     )
 
     auth = fetch.basic_auth(email, password)
     headers = fetch.create_headers()
     response = fetch.get(url, auth, headers)
 
-    return fetch.format_json(response.json())
+    if format is None or format == "geojson" or format == "legacy":
+        return fetch.format_json(response.json())
+    else:
+        return response.content
 
 
 @register_command("feature", "tile")

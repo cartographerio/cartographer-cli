@@ -255,6 +255,14 @@ feature_search.add_argument(
 )
 
 
+feature_search.add_argument(
+    "-f",
+    "--format",
+    help="Response format (defaults to geojson)",
+    choices=["geojson", "kml", "csv", "legacy"],
+    default=None,
+)
+
 # Feature tile ----------------------------------
 
 feature_tile = feature_parsers.add_parser(
